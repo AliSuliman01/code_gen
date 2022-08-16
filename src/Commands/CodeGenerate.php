@@ -49,7 +49,7 @@ class CodeGenerate extends Command
     {
         echo "\e[0;32m------Code generating started------\e[0m\n";
 
-        $json_file = json_decode(file_get_contents(base_path($this->argument('file'))), true);
+        $json_file = json_decode(file_get_contents(base_path($this->argument('file') ?? 'code_gen.json')), true);
 
         app(Pipeline::class)
             ->send($json_file)
