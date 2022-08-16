@@ -18,6 +18,13 @@
     "require": {
         "ext-json": "*"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alisuliman\\CodeGen\\ServiceProvider"
+            ]
+        }
+    },
     "require-dev": {
         "orchestra/testbench": "^v7.3.0",
         "phpunit/phpunit": "^9.3"
