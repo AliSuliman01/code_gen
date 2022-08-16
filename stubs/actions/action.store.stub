@@ -1,0 +1,18 @@
+<?php
+
+
+namespace App\Domain\{{ base_path }}\Actions;
+
+
+use App\Domain\{{ base_path }}\DTO\{{ entity_name }}DTO;
+use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+
+class Store{{ entity_name }}Action
+{
+    public static function execute(
+    {{ entity_name }}DTO ${{ instance_name }}DTO
+    ){
+
+        return {{ entity_name }}::create(array_null_filter(${{ instance_name }}DTO->toArray()));
+    }
+}

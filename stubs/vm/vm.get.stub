@@ -1,0 +1,24 @@
+<?php
+
+
+namespace App\Http\ViewModels\{{ base_path }};
+
+use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+use Illuminate\Contracts\Support\Arrayable;
+
+
+class Get{{ entity_name }}VM implements Arrayable
+{
+
+    private ${{ instance_name }};
+
+    public function __construct(${{ instance_name }})
+    {
+        $this->{{ instance_name }} = ${{ instance_name }};
+    }
+
+    public function toArray()
+    {
+        return  $this->{{ instance_name }};
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "alisuliman/code_gen",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Alisuliman\\CodeGen\\": "src/",
+            "Alisuliman\\CodeGen\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AliSuliman",
+            "email": "alisulimanq@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^v7.3.0",
+        "phpunit/phpunit": "^9.3"
+    }
+}

@@ -1,0 +1,15 @@
+<?php
+
+
+namespace App\Http\ViewModels\{{ base_path }};
+
+use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+use Illuminate\Contracts\Support\Arrayable;
+
+class GetAll{{ entity_name }}sVM implements Arrayable
+{
+    public function toArray()
+    {
+        return {{ entity_name }}::query()->get();
+    }
+}

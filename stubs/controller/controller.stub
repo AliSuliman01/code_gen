@@ -1,0 +1,62 @@
+<?php
+
+
+namespace App\Http\Controllers\{{ base_path }};
+
+
+use App\Helpers\Response;
+use App\Http\Controllers\Controller;
+use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+use App\Domain\{{ base_path }}\Actions\Store{{ entity_name }}Action;
+use App\Domain\{{ base_path }}\Actions\Destroy{{ entity_name }}Action;
+use App\Domain\{{ base_path }}\Actions\Update{{ entity_name }}Action;
+use App\Domain\{{ base_path }}\DTO\{{ entity_name }}DTO;
+use App\Http\Requests\{{ base_path }}\Store{{ entity_name }}Request;
+use App\Http\Requests\{{ base_path }}\Update{{ entity_name }}Request;
+use App\Http\ViewModels\{{ base_path }}\Get{{ entity_name }}VM;
+use App\Http\ViewModels\{{ base_path }}\GetAll{{ entity_name }}sVM;
+
+class {{ entity_name }}Controller extends Controller
+{
+    public function __construct(){
+        $this->middleware('datatable_adapters')->only(['index']);
+        $this->middleware('auth.rest')->only(['store','update','destroy']);
+    }
+    public function index(){
+
+        return response()->json(Response::success((new GetAll{{ entity_name }}sVM())->toArray()));
+    }
+
+    public function show({{ entity_name }} ${{ instance_name }}){
+
+        return response()->json(Response::success((new Get{{ entity_name }}VM(${{ instance_name }}))->toArray()));
+    }
+
+    public function store(Store{{ entity_name }}Request $request){
+
+        $data = $request->validated() ;
+
+        ${{ instance_name }}DTO = {{ entity_name }}DTO::fromRequest($data);
+
+        ${{ instance_name }} = Store{{ entity_name }}Action::execute(${{ instance_name }}DTO);
+
+        return response()->json(Response::success((new Get{{ entity_name }}VM(${{ instance_name }}))->toArray()));
+    }
+
+    public function update({{ entity_name }} ${{ instance_name }}, Update{{ entity_name }}Request $request){
+
+        $data = $request->validated() ;
+
+        ${{ instance_name }}DTO = {{ entity_name }}DTO::fromRequest($data);
+
+        ${{ instance_name }} = Update{{ entity_name }}Action::execute(${{ instance_name }}, ${{ instance_name }}DTO);
+
+        return response()->json(Response::success((new Get{{ entity_name }}VM(${{ instance_name }}))->toArray()));
+    }
+
+    public function destroy({{ entity_name }} ${{ instance_name }}){
+
+        return response()->json(Response::success(Destroy{{ entity_name }}Action::execute(${{ instance_name }})));
+    }
+
+}

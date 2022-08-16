@@ -1,0 +1,6 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{{ base_path }}\{{ entity_name }}Controller;
+
+Route::apiResource('{{ table_name }}',{{ entity_name }}Controller::class);

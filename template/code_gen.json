@@ -1,0 +1,28 @@
+{
+  "tables": [
+    {
+      "table_name": "tests",
+      "entity_name": "Test",
+      "instance_name": "test",
+      "base_path": "Layer1\\Layer2\\Layer3",
+      "operation": "crud",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "validation_rules": "integer|required"
+        },
+        {
+          "type": "",
+          "name": "",
+          "validation_rules": ""
+        },
+        {
+          "type": "",
+          "name": "",
+          "validation_rules": ""
+        }
+      ]
+    }
+  ]
+}

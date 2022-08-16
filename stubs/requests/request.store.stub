@@ -1,0 +1,17 @@
+<?php
+
+
+namespace App\Http\Requests\{{ base_path }};
+
+
+use {{ base_form_request_class }};
+
+class Store{{ entity_name }}Request extends {{ base_form_request_class_name }}
+{
+    public function rules(): array
+    {
+        return [
+{{ request_rules }}
+        ];
+    }
+}

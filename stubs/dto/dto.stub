@@ -1,0 +1,20 @@
+<?php
+
+
+namespace App\Domain\{{ base_path }}\DTO;
+
+use Spatie\DataTransferObject\DataTransferObject;
+
+
+class {{ entity_name }}DTO extends DataTransferObject
+{
+
+{{ dto_props }}
+
+    public static function fromRequest($request)
+    {
+        return new self([
+{{ dto_from_request }}
+        ]);
+    }
+}
