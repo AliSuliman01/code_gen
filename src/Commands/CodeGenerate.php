@@ -21,7 +21,7 @@ class CodeGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'code_gen {file}';
+    protected $signature = 'code_gen {file?}';
 
     /**
      * The console command description.
