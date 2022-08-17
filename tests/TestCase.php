@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Alisuliman\CodeGen\Tests;
+namespace Alisuliman\CodeGenerator\Tests;
 
 
-use Alisuliman\CodeGen\ServiceProvider;
+use Alisuliman\CodeGenerator\ServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Alisuliman\CodeGen\Pipes;
+namespace Alisuliman\CodeGenerator\Pipes;
 
 
 use Illuminate\Support\Str;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alisuliman\CodeGen\Commands;
+namespace Alisuliman\CodeGenerator\Commands;
 
 use Illuminate\Console\Command;
 

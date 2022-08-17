@@ -1,11 +1,11 @@
 {
-    "name": "alisuliman/code_gen",
+    "name": "alisuliman/code_generator",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Alisuliman\\CodeGen\\": "src/",
-            "Alisuliman\\CodeGen\\Tests\\": "tests/"
+            "Alisuliman\\CodeGenerator\\": "src/",
+            "Alisuliman\\CodeGenerator\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Alisuliman\\CodeGen\\ServiceProvider"
+                "Alisuliman\\CodeGenerator\\ServiceProvider"
             ]
         }
     },

@@ -1,17 +1,17 @@
 <?php
 
-namespace Alisuliman\CodeGen\Commands;
+namespace Alisuliman\CodeGenerator\Commands;
 
 
-use Alisuliman\CodeGen\Pipes\CreateActionsPipe;
-use Alisuliman\CodeGen\Pipes\CreateControllersPipe;
-use Alisuliman\CodeGen\Pipes\CreateDTOPipe;
-use Alisuliman\CodeGen\Pipes\CreateMigrationsPipe;
-use Alisuliman\CodeGen\Pipes\CreateModelsPipe;
-use Alisuliman\CodeGen\Pipes\CreateRequestsPipe;
-use Alisuliman\CodeGen\Pipes\CreateRoutesPipe;
-use Alisuliman\CodeGen\Pipes\CreateViewModelsPipe;
-use Alisuliman\CodeGen\Pipes\RegisterRoutePipe;
+use Alisuliman\CodeGenerator\Pipes\CreateActionsPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateControllersPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateDTOPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateMigrationsPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateModelsPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateRequestsPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateRoutesPipe;
+use Alisuliman\CodeGenerator\Pipes\CreateViewModelsPipe;
+use Alisuliman\CodeGenerator\Pipes\RegisterRoutePipe;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Pipeline;
 

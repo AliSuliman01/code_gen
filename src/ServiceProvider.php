@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Alisuliman\CodeGen;
+namespace Alisuliman\CodeGenerator;
 
 
-use Alisuliman\CodeGen\Commands\CodeGenerate;
-use Alisuliman\CodeGen\Commands\PublishCodeGenerateTemplate;
+use Alisuliman\CodeGenerator\Commands\CodeGenerate;
+use Alisuliman\CodeGenerator\Commands\PublishCodeGenerateTemplate;
 use Illuminate\Contracts\Http\Kernel;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
