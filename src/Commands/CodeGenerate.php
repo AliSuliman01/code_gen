@@ -11,6 +11,7 @@ use Alisuliman\CodeGen\Pipes\CreateModelsPipe;
 use Alisuliman\CodeGen\Pipes\CreateRequestsPipe;
 use Alisuliman\CodeGen\Pipes\CreateRoutesPipe;
 use Alisuliman\CodeGen\Pipes\CreateViewModelsPipe;
+use Alisuliman\CodeGen\Pipes\RegisterRoutePipe;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Pipeline;
 
