@@ -62,6 +62,7 @@ class CodeGenerate extends Command
                 CreateRequestsPipe::class,
                 CreateControllersPipe::class,
                 CreateRoutesPipe::class,
+                RegisterRoutePipe::class,
             ])
             ->thenReturn();
 
