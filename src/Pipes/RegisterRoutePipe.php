@@ -24,7 +24,7 @@ class RegisterRoutePipe
             }
         }
 
-        file_put_contents($routesFilePath, $routes);
+        file_put_contents($routesFilePath, json_encode($routes,JSON_UNESCAPED_SLASHES));
 
         return $next($json_file);
     }
