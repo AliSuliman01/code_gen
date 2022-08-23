@@ -1,0 +1,165 @@
+{
+    "name": "{{ table_name }}",
+    "item": [
+        {
+            "name": "index",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "language_code",
+                        "value": "en",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}",
+                    "host": [
+                        "{{staging_base_v3}}"
+                    ],
+                    "path": [
+                        "{{users}}",
+                        "api",
+                        "v1",
+                        "{{ table_name }}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "show",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}/1",
+                    "host": [
+                        "{{staging_base_v3}}"
+                    ],
+                    "path": [
+                        {{users}},
+                        "api",
+                        "v1",
+                        "{{ table_name }}",
+                        "1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "store",
+            "request": {
+                "auth": {
+                    "type": "oauth2",
+                    "oauth2": [
+                        {
+                            "key": "addTokenTo",
+                            "value": "header",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{ postman_json_raw }}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}",
+                    "host": [
+                        "{{staging_base_v3}}"
+                    ],
+                    "path": [
+                        {{users}},
+                        "api",
+                        "v1",
+                        "{{ table_name }}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "update",
+            "request": {
+                "auth": {
+                    "type": "oauth2",
+                    "oauth2": [
+                        {
+                            "key": "addTokenTo",
+                            "value": "header",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{ postman_json_raw }}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}/1",
+                    "host": [
+                        "{{staging_base_v3}}"
+                    ],
+                    "path": [
+                        "{{users}}",
+                        "api",
+                        "v1",
+                        "{{ table_name }}",
+                        "1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "destroy",
+            "request": {
+                "auth": {
+                    "type": "oauth2",
+                    "oauth2": [
+                        {
+                            "key": "addTokenTo",
+                            "value": "header",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "DELETE",
+                "url": {
+                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}/1",
+                    "host": [
+                        "{{staging_base_v3}}"
+                    ],
+                    "path": [
+                        {{users}},
+                        "api",
+                        "v1",
+                        "{{ table_name }}",
+                        "1"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+
+}
