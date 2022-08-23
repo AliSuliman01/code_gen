@@ -10,10 +10,10 @@ class GeneratePostmanCollectionPipe
         $json_raw = '';
         foreach ($columns as $column){
 
-            $json_raw .= (strlen($json_raw) == 0 ? '{':',')."\r\n           \"{$column['name']}\": \"\"";
+            $json_raw .= (strlen($json_raw) == 0 ? '{':',').'\r\n           \"'.$column['name'].'\": \"\"';
 
         }
-        return "$json_raw\r\n        }";
+        return $json_raw.'\r\n        }';
     }
 
     public function handle($json_file, \Closure $next)
@@ -33,7 +33,10 @@ class GeneratePostmanCollectionPipe
 
         $file = fopen(base_path('postman_collection.json'), 'w');
         fwrite($file, $collection);
-        fclose($file);   
+        fclose($file);
+
+        echo "\e[0;32m postman_collection.json Generated.\e[0m\n";
+
         return $next($json_file);
     }
 }
