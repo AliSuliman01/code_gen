@@ -16,7 +16,8 @@ class CreateControllersPipe
             $finalString = str_replace('{{ instance_name }}', $table['instance_name'], $workingString);
 
             $file_name = $table['entity_name'] . 'Controller.php';
-            $file_path = app_path('Http/Controllers/' . str_replace('\\', '/', $table['base_path']) . '/' . $file_name);
+            $controllers_path = config('code_gen.destinations.controllers');
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$controllers_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {

@@ -18,7 +18,8 @@ class CreateViewModelsPipe
             $finalString = str_replace('{{ instance_name }}', Str::singular($table['table_name']), $workingString);
 
             $file_name = $prefix . $table['entity_name'] . $suffix .'VM.php';
-            $file_path = app_path('Http/ViewModels/' . str_replace('\\', '/', $table['base_path']) . '/' . $file_name);
+            $viewmodels_path = config('code_gen.destinations.viewmodels');
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$viewmodels_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {

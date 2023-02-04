@@ -8,7 +8,7 @@ class CreateModelsPipe
 {
     public function handle($json_file, \Closure $next)
     {
-        $base_model_class_name = basename(config('code_gen.base_model'));
+        $base_model_class_name = class_basename(config('code_gen.base_model'));
         foreach ($json_file['tables'] as $table) {
             $stub = file_get_contents(__DIR__ . '/../../stubs/model/model.stub');
 
@@ -18,7 +18,10 @@ class CreateModelsPipe
             $finalString = str_replace('{{ base_model_class_name }}', $base_model_class_name, $workingString);
 
             $file_name = $table['entity_name'] . '.php';
-            $file_path = app_path('Domain/' . str_replace('\\', '/', $table['base_path']) . '/Model/' . $file_name);
+
+            $models_path = config('code_gen.destinations.models');
+
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$models_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {

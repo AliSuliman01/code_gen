@@ -18,7 +18,8 @@ class CreateActionsPipe
             $finalString = str_replace('{{ instance_name }}', Str::singular($table['table_name']), $workingString);
 
             $file_name = $prefix . $table['entity_name'] . 'Action.php';
-            $file_path = app_path('Domain/' . str_replace('\\', '/', $table['base_path']) . '/Actions/' . $file_name);
+            $actions_path = config('code_gen.destinations.actions');
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$actions_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {

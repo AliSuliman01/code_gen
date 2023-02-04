@@ -16,7 +16,8 @@ class CreateRoutesPipe
             $finalString = str_replace('{{ table_name }}', $table['table_name'], $workingString);
 
             $file_name = $table['table_name'] . '.php';
-            $file_path = base_path('routes/' . str_replace('\\', '/', $table['base_path']) . '/' . $file_name);
+            $routes_path = config('code_gen.destinations.routes');
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$routes_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {

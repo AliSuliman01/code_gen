@@ -28,7 +28,6 @@ class CreateDTOPipe
 
     public function handle($json_file, \Closure $next)
     {
-        $base_model_class_name = basename(config('code_gen.base_model'));
         foreach ($json_file['tables'] as $table) {
             $stub = file_get_contents(__DIR__ . '/../../stubs/dto/dto.stub');
 
@@ -38,7 +37,8 @@ class CreateDTOPipe
             $finalString = str_replace('{{ dto_from_request }}', $this->prepareDtoFromRequest($table['columns']), $workingString);
 
             $file_name = $table['entity_name'] . 'DTO.php';
-            $file_path = app_path('Domain/' . str_replace('\\', '/', $table['base_path']) . '/DTO/' . $file_name);
+            $dto_path = config('code_gen.destinations.dtos');
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$dto_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {

@@ -39,7 +39,8 @@ class CreateRequestsPipe
             $finalString = str_replace('{{ request_rules }}', $this->prepareRequestRules($table['columns']), $workingString);
 
             $file_name = $prefix . $table['entity_name'] . 'Request.php';
-            $file_path = app_path('Http/Requests/' . str_replace('\\', '/', $table['base_path']) . '/' . $file_name);
+            $requests_path = config('code_gen.destinations.requests');
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$requests_path).'/' . $file_name);
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {
