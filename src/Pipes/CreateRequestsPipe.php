@@ -14,7 +14,7 @@ class CreateRequestsPipe
     public function __construct()
     {
         $this->base_form_request_class = config('code_gen.base_form_request');
-        $this->base_form_request_class_name = basename($this->base_form_request_class);
+        $this->base_form_request_class_name = class_basename($this->base_form_request_class);
     }
 
     private function prepareRequestRules($columns)
