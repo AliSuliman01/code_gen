@@ -21,8 +21,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/code_gen.php', 'code_gen');
 
         $this->publishes([
-            __DIR__ . '/config/code_gen.php' => config_path('code_gen.php')
+            __DIR__ . '/config/code_gen.php' => config_path('code_gen.php'),
         ], 'code_gen_configs');
+        $this->publishes([
+            __DIR__ . '../stubs' => base_path('stubs'),
+        ], 'code_gen_stubs');
     }
 
 }

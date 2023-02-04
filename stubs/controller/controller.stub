@@ -19,8 +19,7 @@ use App\Http\ViewModels\{{ base_path }}\GetAll{{ entity_name }}sVM;
 class {{ entity_name }}Controller extends Controller
 {
     public function __construct(){
-        $this->middleware('datatable_adapters')->only(['index']);
-        $this->middleware('auth.rest')->only(['store','update','destroy']);
+        $this->middleware('auth:api')->only(['store','update','destroy']);
     }
     public function index(){
 
