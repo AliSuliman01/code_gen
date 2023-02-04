@@ -12,6 +12,7 @@ use Alisuliman\CodeGenerator\Pipes\CreateRequestsPipe;
 use Alisuliman\CodeGenerator\Pipes\CreateRoutesPipe;
 use Alisuliman\CodeGenerator\Pipes\CreateViewModelsPipe;
 use Alisuliman\CodeGenerator\Pipes\GeneratePostmanCollectionPipe;
+use Alisuliman\CodeGenerator\Pipes\RegisterMigrationsPipe;
 use Alisuliman\CodeGenerator\Pipes\RegisterRoutePipe;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Pipeline;
@@ -65,6 +66,7 @@ class CodeGenerate extends Command
                 CreateControllersPipe::class,
                 CreateRoutesPipe::class,
                 RegisterRoutePipe::class,
+                RegisterMigrationsPipe::class,
                 GeneratePostmanCollectionPipe::class,
             ])
             ->thenReturn();

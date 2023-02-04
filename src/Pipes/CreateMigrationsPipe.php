@@ -17,7 +17,7 @@ class CreateMigrationsPipe
 
             $migrations_path = config('code_gen.destinations.migrations');
 
-            $file_path = base_path("$migrations_path/$file_name");
+            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$migrations_path).'/' . $file_name);
 
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);

@@ -17,7 +17,10 @@ class RegisterRoutePipe
 
         foreach ($json_file['tables'] as $table) {
 
-            $routePath = "routes/" . str_replace("\\", "/", $table['base_path']) . "/" . $table['table_name'] . ".php";
+            $file_name = $table['table_name'] . '.php';
+            $routes_path = config('code_gen.destinations.routes');
+            $routePath = str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$routes_path).'/' . $file_name;
+
             if (!in_array($routePath, $routes)) {
                 $routes[] = $routePath;
                 echo "\e[0;32m{$table['table_name']}.php route file registered.\e[0m\n";
