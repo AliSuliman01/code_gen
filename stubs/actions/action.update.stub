@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Domain\{{ base_path }}\Actions;
+namespace {{ action_namespace }};
 
-use App\Domain\{{ base_path }}\DTO\{{ entity_name }}DTO;
-use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+use {{ model_namespace }}\{{ entity_name }};
+use {{ dto_namespace }}\{{ entity_name }}DTO;
 
 class Update{{ entity_name }}Action
 {
-
     public static function execute(
         {{ entity_name }} ${{ instance_name }},{{ entity_name }}DTO ${{ instance_name }}DTO
     ){

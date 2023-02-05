@@ -11,6 +11,7 @@ use Alisuliman\CodeGenerator\Pipes\CreateModelsPipe;
 use Alisuliman\CodeGenerator\Pipes\CreateRequestsPipe;
 use Alisuliman\CodeGenerator\Pipes\CreateRoutesPipe;
 use Alisuliman\CodeGenerator\Pipes\CreateViewModelsPipe;
+use Alisuliman\CodeGenerator\Pipes\GenerateNamespacesArrayPipe;
 use Alisuliman\CodeGenerator\Pipes\GeneratePostmanCollectionPipe;
 use Alisuliman\CodeGenerator\Pipes\RegisterMigrationsPipe;
 use Alisuliman\CodeGenerator\Pipes\RegisterRoutePipe;
@@ -57,6 +58,7 @@ class CodeGenerate extends Command
         app(Pipeline::class)
             ->send($json_file)
             ->through([
+                GenerateNamespacesArrayPipe::class,
                 CreateMigrationsPipe::class,
                 CreateModelsPipe::class,
                 CreateDTOPipe::class,

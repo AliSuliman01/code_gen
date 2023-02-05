@@ -29,18 +29,24 @@ class CreateRequestsPipe
 
     private function handleSingleStub($stub, $json_file, $prefix)
     {
-
         foreach ($json_file['tables'] as $table) {
 
-            $workingString = str_replace('{{ entity_name }}', $table['entity_name'], $stub);
-            $workingString = str_replace('{{ base_path }}', $table['base_path'], $workingString);
-            $workingString = str_replace('{{ base_form_request_class }}', $this->base_form_request_class, $workingString);
-            $workingString = str_replace('{{ base_form_request_class_name }}', $this->base_form_request_class_name, $workingString);
-            $finalString = str_replace('{{ request_rules }}', $this->prepareRequestRules($table['columns']), $workingString);
+            $request_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.request_namespace"];
+
+            $finalString = (new \Alisuliman\CodeGenerator\Helpers\Str($stub))
+                ->replace('{{ entity_name }}', $table['entity_name'])
+                ->replace('{{ request_namespace }}', $request_namespace)
+                ->replace('{{ base_form_request_class }}', $this->base_form_request_class)
+                ->replace('{{ base_form_request_class_name }}', $this->base_form_request_class_name)
+                ->replace('{{ request_rules }}', $this->prepareRequestRules($table['columns']))
+                ->getString();
+
+            if (str_starts_with($request_namespace, 'App'))
+                $request_namespace = lcfirst($request_namespace);
 
             $file_name = $prefix . $table['entity_name'] . 'Request.php';
-            $requests_path = config('code_gen.destinations.requests');
-            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$requests_path).'/' . $file_name);
+            $file_path = base_path(str_replace('\\', '/', $request_namespace). '/' . $file_name);
+
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {
@@ -57,8 +63,15 @@ class CreateRequestsPipe
 
     public function handle($json_file, \Closure $next)
     {
-        $storeRequestStub = file_get_contents(__DIR__ . '/../../stubs/requests/request.store.stub');
-        $updateRequestStub = file_get_contents(__DIR__ . '/../../stubs/requests/request.update.stub');
+        if (file_exists(base_path('stubs/code_gen/requests/request.store.stub')))
+            $storeRequestStub = file_get_contents(base_path('stubs/code_gen/requests/request.store.stub'));
+        else
+            $storeRequestStub = file_get_contents(__DIR__ . '/../../stubs/requests/request.store.stub');
+
+        if (file_exists(base_path('stubs/code_gen/requests/request.update.stub')))
+            $updateRequestStub = file_get_contents(base_path('stubs/code_gen/requests/request.update.stub'));
+        else
+            $updateRequestStub = file_get_contents(__DIR__ . '/../../stubs/requests/request.update.stub');
 
         $this->handleSingleStub($storeRequestStub, $json_file, 'Store');
         $this->handleSingleStub($updateRequestStub, $json_file, 'Update');

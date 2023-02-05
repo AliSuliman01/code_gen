@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Http\ViewModels\{{ base_path }};
+namespace {{ vm_namespace }};
 
-use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+use {{ model_namespace }}\{{ entity_name }};
 use Illuminate\Contracts\Support\Arrayable;
 
 class GetAll{{ entity_name }}sVM implements Arrayable

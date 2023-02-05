@@ -1,11 +1,9 @@
 <?php
 
+namespace {{ action_namespace }};
 
-namespace App\Domain\{{ base_path }}\Actions;
-
-
-use App\Domain\{{ base_path }}\DTO\{{ entity_name }}DTO;
-use App\Domain\{{ base_path }}\Model\{{ entity_name }};
+use {{ model_namespace }}\{{ entity_name }};
+use {{ dto_namespace }}\{{ entity_name }}DTO;
 
 class Store{{ entity_name }}Action
 {

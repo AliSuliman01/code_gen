@@ -24,7 +24,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__ . '/config/code_gen.php' => config_path('code_gen.php'),
         ], 'code_gen_configs');
         $this->publishes([
-            __DIR__ . '../stubs' => base_path('stubs'),
+            __DIR__ . '/../stubs' => base_path('stubs/code_gen'),
         ], 'code_gen_stubs');
     }
 

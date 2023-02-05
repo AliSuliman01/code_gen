@@ -15,11 +15,17 @@ class RegisterRoutePipe
         if (file_exists($routesFilePath))
             $routes = json_decode(file_get_contents($routesFilePath), true);
 
+            $routes_namespace = config('code_gen.namespaces.routes');
+
         foreach ($json_file['tables'] as $table) {
 
             $file_name = $table['table_name'] . '.php';
-            $routes_path = config('code_gen.destinations.routes');
-            $routePath = str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$routes_path).'/' . $file_name;
+            $routePath = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.route_namespace"] . '/' . $file_name;
+
+            $routePath = str_replace('\\', '/', $routePath);
+            
+            if (str_starts_with($routePath, 'App'))
+                $routePath = lcfirst($routePath);
 
             if (!in_array($routePath, $routes)) {
                 $routes[] = $routePath;

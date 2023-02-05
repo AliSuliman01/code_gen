@@ -4,7 +4,7 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
-use Illuminate\Support\Str;
+use Alisuliman\CodeGenerator\Helpers\Str;
 
 class CreateActionsPipe
 {
@@ -13,15 +13,27 @@ class CreateActionsPipe
 
         foreach ($json_file['tables'] as $table) {
 
-            $workingString = str_replace('{{ entity_name }}', $table['entity_name'], $stub);
-            $workingString = str_replace('{{ base_path }}', $table['base_path'], $workingString);
-            $finalString = str_replace('{{ instance_name }}', Str::singular($table['table_name']), $workingString);
+            $actions_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.action_namespace"];
+            $models_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.model_namespace"];
+            $dtos_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.dto_namespace"];
+
+            $finalString = (new Str($stub))
+                ->replace('{{ entity_name }}', $table['entity_name'])
+                ->replace('{{ action_namespace }}', $actions_namespace)
+                ->replace('{{ model_namespace }}', $models_namespace)
+                ->replace('{{ dto_namespace }}', $dtos_namespace)
+                ->replace('{{ instance_name }}', $table['instance_name'])
+                ->getString();
+
+            if (str_starts_with($actions_namespace, 'App'))
+                $actions_namespace = lcfirst($actions_namespace);
 
             $file_name = $prefix . $table['entity_name'] . 'Action.php';
-            $actions_path = config('code_gen.destinations.actions');
-            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$actions_path).'/' . $file_name);
+            $file_path = base_path(str_replace('\\', '/', $actions_namespace) . '/' . $file_name);
+
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
+
             if (!file_exists($file_path)) {
                 $file = fopen($file_path, 'w');
                 fwrite($file, $finalString);
@@ -36,9 +48,20 @@ class CreateActionsPipe
 
     public function handle($json_file, \Closure $next)
     {
-        $destroyActionStub = file_get_contents(__DIR__ . '/../../stubs/actions/action.destroy.stub');
-        $storeActionStub = file_get_contents(__DIR__ . '/../../stubs/actions/action.store.stub');
-        $updateActionStub = file_get_contents(__DIR__ . '/../../stubs/actions/action.update.stub');
+        if (file_exists(base_path('stubs/code_gen/actions/action.destroy.stub')))
+            $destroyActionStub = file_get_contents(base_path('stubs/code_gen/actions/action.destroy.stub'));
+        else
+            $destroyActionStub = file_get_contents(__DIR__ . '/../../stubs/actions/action.destroy.stub');
+        
+        if (file_exists(base_path('stubs/code_gen/actions/action.store.stub')))
+            $storeActionStub = file_get_contents(base_path('stubs/code_gen/actions/action.store.stub'));
+        else
+            $storeActionStub = file_get_contents(__DIR__ . '/../../stubs/actions/action.store.stub');
+        
+        if (file_exists(base_path('stubs/code_gen/actions/action.update.stub')))
+            $updateActionStub = file_get_contents(base_path('stubs/code_gen/actions/action.update.stub'));
+        else
+            $updateActionStub = file_get_contents(__DIR__ . '/../../stubs/actions/action.update.stub');
 
         $this->handleSingleStub($destroyActionStub, $json_file, 'Destroy');
         $this->handleSingleStub($storeActionStub, $json_file, 'Store');

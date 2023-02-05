@@ -1,20 +1,20 @@
 <?php
 
 
-namespace App\Http\Controllers\{{ base_path }};
+namespace {{ controller_namespace }};
 
 
 use App\Helpers\Response;
 use App\Http\Controllers\Controller;
-use App\Domain\{{ base_path }}\Model\{{ entity_name }};
-use App\Domain\{{ base_path }}\Actions\Store{{ entity_name }}Action;
-use App\Domain\{{ base_path }}\Actions\Destroy{{ entity_name }}Action;
-use App\Domain\{{ base_path }}\Actions\Update{{ entity_name }}Action;
-use App\Domain\{{ base_path }}\DTO\{{ entity_name }}DTO;
-use App\Http\Requests\{{ base_path }}\Store{{ entity_name }}Request;
-use App\Http\Requests\{{ base_path }}\Update{{ entity_name }}Request;
-use App\Http\ViewModels\{{ base_path }}\Get{{ entity_name }}VM;
-use App\Http\ViewModels\{{ base_path }}\GetAll{{ entity_name }}sVM;
+use {{ model_namespace }}\{{ entity_name }};
+use {{ action_namespace }}\Store{{ entity_name }}Action;
+use {{ action_namespace }}\Destroy{{ entity_name }}Action;
+use {{ action_namespace }}\Update{{ entity_name }}Action;
+use {{ dto_namespace }}\{{ entity_name }}DTO;
+use {{ request_namespace }}\Store{{ entity_name }}Request;
+use {{ request_namespace }}\Update{{ entity_name }}Request;
+use {{ vm_namespace }}\Get{{ entity_name }}VM;
+use {{ vm_namespace }}\GetAll{{ entity_name }}sVM;
 
 class {{ entity_name }}Controller extends Controller
 {

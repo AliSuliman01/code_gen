@@ -10,16 +10,24 @@ class CreateViewModelsPipe
 {
     private function handleSingleStub($stub, $json_file, $prefix, $suffix)
     {
-
         foreach ($json_file['tables'] as $table) {
 
-            $workingString = str_replace('{{ entity_name }}', $table['entity_name'], $stub);
-            $workingString = str_replace('{{ base_path }}', $table['base_path'], $workingString);
-            $finalString = str_replace('{{ instance_name }}', Str::singular($table['table_name']), $workingString);
+            $model_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.model_namespace"];
+            $vm_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.vm_namespace"];
 
-            $file_name = $prefix . $table['entity_name'] . $suffix .'VM.php';
-            $viewmodels_path = config('code_gen.destinations.viewmodels');
-            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$viewmodels_path).'/' . $file_name);
+            $finalString = (new \Alisuliman\CodeGenerator\Helpers\Str($stub))
+                ->replace('{{ entity_name }}', $table['entity_name'])
+                ->replace('{{ model_namespace }}', $model_namespace)
+                ->replace('{{ vm_namespace }}', $vm_namespace)
+                ->replace('{{ instance_name }}', $table['instance_name'])
+                ->getString();
+
+            if (str_starts_with($vm_namespace, 'App'))
+                $vm_namespace = lcfirst($vm_namespace);
+
+            $file_name = $prefix . $table['entity_name'] . $suffix . 'VM.php';
+            $file_path = base_path(str_replace('\\', '/', $vm_namespace) . '/' . $file_name);
+
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {
@@ -36,11 +44,18 @@ class CreateViewModelsPipe
 
     public function handle($json_file, \Closure $next)
     {
-        $getAllViewModelStub = file_get_contents(__DIR__ . '/../../stubs/vm/vm.get_all.stub');
-        $getViewModelStub = file_get_contents(__DIR__ . '/../../stubs/vm/vm.get.stub');
+        if (file_exists(base_path('stubs/code_gen/vm/vm.get_all.stub')))
+            $getAllViewModelStub = file_get_contents(base_path('stubs/code_gen/vm/vm.get_all.stub'));
+        else
+            $getAllViewModelStub = file_get_contents(__DIR__ . '/../../stubs/vm/vm.get_all.stub');
 
-        $this->handleSingleStub($getAllViewModelStub, $json_file, 'GetAll','s');
-        $this->handleSingleStub($getViewModelStub, $json_file, 'Get','');
+        if (file_exists(base_path('stubs/code_gen/vm/vm.get.stub')))
+            $getViewModelStub = file_get_contents(base_path('stubs/code_gen/vm/vm.get.stub'));
+        else
+            $getViewModelStub = file_get_contents(__DIR__ . '/../../stubs/vm/vm.get.stub');
+
+        $this->handleSingleStub($getAllViewModelStub, $json_file, 'GetAll', 's');
+        $this->handleSingleStub($getViewModelStub, $json_file, 'Get', '');
 
         return $next($json_file);
     }

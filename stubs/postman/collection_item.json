@@ -16,12 +16,11 @@
                     }
                 ],
                 "url": {
-                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}",
+                    "raw": "{{ base_url }}/api/v1/{{ table_name }}",
                     "host": [
-                        "{{staging_base_v3}}"
+                        "{{ base_url }}"
                     ],
                     "path": [
-                        "{{users}}",
                         "api",
                         "v1",
                         "{{ table_name }}"
@@ -36,12 +35,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}/1",
+                    "raw": "{{ base_url }}/api/v1/{{ table_name }}/1",
                     "host": [
-                        "{{staging_base_v3}}"
+                        "{{ base_url }}"
                     ],
                     "path": [
-                        "{{users}}",
                         "api",
                         "v1",
                         "{{ table_name }}",
@@ -76,12 +74,11 @@
                     }
                 },
                 "url": {
-                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}",
+                    "raw": "{{ base_url }}/api/v1/{{ table_name }}",
                     "host": [
-                        "{{staging_base_v3}}"
+                        "{{ base_url }}"
                     ],
                     "path": [
-                        "{{users}}",
                         "api",
                         "v1",
                         "{{ table_name }}"
@@ -115,12 +112,11 @@
                     }
                 },
                 "url": {
-                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}/1",
+                    "raw": "{{ base_url }}/api/v1/{{ table_name }}/1",
                     "host": [
-                        "{{staging_base_v3}}"
+                        "{{ base_url }}"
                     ],
                     "path": [
-                        "{{users}}",
                         "api",
                         "v1",
                         "{{ table_name }}",
@@ -145,12 +141,11 @@
                 },
                 "method": "DELETE",
                 "url": {
-                    "raw": "{{staging_base_v3}}/{{users}}/api/v1/{{ table_name }}/1",
+                    "raw": "{{ base_url }}/api/v1/{{ table_name }}/1",
                     "host": [
-                        "{{staging_base_v3}}"
+                        "{{ base_url }}"
                     ],
                     "path": [
-                        "{{users}}",
                         "api",
                         "v1",
                         "{{ table_name }}",

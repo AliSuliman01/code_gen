@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Domain\{{ base_path }}\DTO;
+namespace {{ dto_namespace }};
 
 use Spatie\DataTransferObject\DataTransferObject;
 

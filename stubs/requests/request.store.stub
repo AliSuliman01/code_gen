@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Requests\{{ base_path }};
+namespace {{ request_namespace }};
 
 
 use {{ base_form_request_class }};

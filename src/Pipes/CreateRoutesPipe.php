@@ -8,16 +8,28 @@ class CreateRoutesPipe
 {
     public function handle($json_file, \Closure $next)
     {
-        foreach ($json_file['tables'] as $table) {
+        if (file_exists(base_path('stubs/code_gen/routes.stub')))
+            $stub = file_get_contents(base_path('stubs/code_gen/routes.stub'));
+        else
             $stub = file_get_contents(__DIR__ . '/../../stubs/routes.stub');
 
-            $workingString = str_replace('{{ entity_name }}', $table['entity_name'], $stub);
-            $workingString = str_replace('{{ base_path }}', $table['base_path'], $workingString);
-            $finalString = str_replace('{{ table_name }}', $table['table_name'], $workingString);
+        foreach ($json_file['tables'] as $table) {
+
+            $controller_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.controller_namespace"];
+            $route_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.route_namespace"];
+
+            $finalString = (new \Alisuliman\CodeGenerator\Helpers\Str($stub))
+                ->replace('{{ entity_name }}', $table['entity_name'])
+                ->replace('{{ controller_namespace }}', $controller_namespace)
+                ->replace('{{ table_name }}', $table['table_name'])
+                ->getString();
+
+            if (str_starts_with($route_namespace, 'App'))
+                $route_namespace = lcfirst($route_namespace);
 
             $file_name = $table['table_name'] . '.php';
-            $routes_path = config('code_gen.destinations.routes');
-            $file_path = base_path(str_replace('{{ base_path }}', str_replace('\\', '/', $table['base_path']) ,$routes_path).'/' . $file_name);
+            $file_path = base_path(str_replace('\\', '/', $route_namespace) . '/' . $file_name);
+
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0777, true);
             if (!file_exists($file_path)) {
