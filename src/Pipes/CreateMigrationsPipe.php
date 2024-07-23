@@ -4,18 +4,19 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Alisuliman\CodeGenerator\Helpers\Str;
 
-class CreateMigrationsPipe
+class CreateMigrationsPipe implements CodeGenPipContract
 {
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/migration/migration.create.stub')))
             $stub = file_get_contents(base_path('stubs/code_gen/migration/migration.create.stub'));
         else
             $stub = file_get_contents(__DIR__ . '/../../stubs/migration/migration.create.stub');
 
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
             $migration_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.migration_namespace"];
 
             $finalString = (new Str($stub))
@@ -25,7 +26,7 @@ class CreateMigrationsPipe
 
             $static_part_of_file_name = '_create_' . $table['table_name'] . '_table.php';
 
-            $file_name = date('Y_m_d_') . time() % 1000000 . $static_part_of_file_name;
+            $file_name = date('Y_m_d_His') . $static_part_of_file_name;
 
             if (str_starts_with($migration_namespace, 'App'))
                 $migration_namespace = lcfirst($migration_namespace);
@@ -48,6 +49,6 @@ class CreateMigrationsPipe
             sleep(1);
         }
 
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

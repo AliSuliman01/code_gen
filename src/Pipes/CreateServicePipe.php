@@ -7,30 +7,28 @@ namespace Alisuliman\CodeGenerator\Pipes;
 use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Alisuliman\CodeGenerator\Helpers\Str;
 
-class CreateActionsPipe implements CodeGenPipContract
+class CreateServicePipe implements CodeGenPipContract
 {
     private function handleSingleStub($stub, $json_file, $prefix)
     {
 
         foreach ($json_file['tables'] as $table) {
 
-            $actions_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.action_namespace"];
-            $models_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.model_namespace"];
-            $dtos_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.dto_namespace"];
+            $service_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.service_namespace"];
+            $model_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.model_namespace"];
 
             $finalString = (new Str($stub))
                 ->replace('{{ entity_name }}', $table['entity_name'])
-                ->replace('{{ action_namespace }}', $actions_namespace)
-                ->replace('{{ model_namespace }}', $models_namespace)
-                ->replace('{{ dto_namespace }}', $dtos_namespace)
+                ->replace('{{ model_namespace }}', $model_namespace)
+                ->replace('{{ service_namespace }}', $service_namespace)
                 ->replace('{{ instance_name }}', $table['instance_name'])
                 ->getString();
 
-            if (str_starts_with($actions_namespace, 'App'))
-                $actions_namespace = lcfirst($actions_namespace);
+            if (str_starts_with($service_namespace, 'App'))
+                $service_namespace = lcfirst($service_namespace);
 
-            $file_name = $prefix . $table['entity_name'] . 'Action.php';
-            $file_path = base_path(str_replace('\\', '/', $actions_namespace) . '/' . $file_name);
+            $file_name = $prefix . $table['entity_name'] . 'Service.php';
+            $file_path = base_path(str_replace('\\', '/', $service_namespace) . '/' . $file_name);
 
             if (!is_dir(dirname($file_path)))
                 mkdir(dirname($file_path), 0755, true);

@@ -4,7 +4,7 @@
       "table_name": "tests",
       "entity_name": "Test",
       "instance_name": "test",
-      "base_path": "Layer1\\Layer2\\Layer3",
+      "sub_namespace": "Layer1\\Layer2\\Layer3",
       "operation": "crud",
       "columns": [
         {

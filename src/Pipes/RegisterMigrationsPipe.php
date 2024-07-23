@@ -4,9 +4,11 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
-class RegisterMigrationsPipe
+use Alisuliman\CodeGenerator\Helpers\PipeData;
+
+class RegisterMigrationsPipe implements CodeGenPipContract
 {
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         $migrationsFilePath = app_path('Providers/migrations.json');
 
@@ -16,7 +18,7 @@ class RegisterMigrationsPipe
             $migrations = json_decode(file_get_contents($migrationsFilePath), true);
 
 
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
 
             $migrations_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.migration_namespace"];
 
@@ -33,6 +35,6 @@ class RegisterMigrationsPipe
 
         file_put_contents($migrationsFilePath, json_encode($migrations, JSON_UNESCAPED_SLASHES));
 
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

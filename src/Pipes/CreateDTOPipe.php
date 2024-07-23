@@ -4,9 +4,10 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Alisuliman\CodeGenerator\Helpers\Str;
 
-class CreateDTOPipe
+class CreateDTOPipe implements CodeGenPipContract
 {
     private function prepareDtoProps($columns)
     {
@@ -28,14 +29,14 @@ class CreateDTOPipe
         return $replaceString;
     }
 
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/dto/dto.stub')))
             $stub = file_get_contents(base_path('stubs/code_gen/dto/dto.stub'));
         else
             $stub = file_get_contents(__DIR__ . '/../../stubs/dto/dto.stub');
         
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
 
             $dto_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.dto_namespace"];
 
@@ -65,6 +66,6 @@ class CreateDTOPipe
         }
 
 
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

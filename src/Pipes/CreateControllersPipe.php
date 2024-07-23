@@ -3,19 +3,19 @@
 
 namespace Alisuliman\CodeGenerator\Pipes;
 
-
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Alisuliman\CodeGenerator\Helpers\Str;
 
-class CreateControllersPipe
+class CreateControllersPipe implements CodeGenPipContract
 {
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/controller/controller.stub')))
         $stub = file_get_contents(base_path('stubs/code_gen/controller/controller.stub')) ;
         else
         $stub = file_get_contents(__DIR__ . '/../../stubs/controller/controller.stub');
 
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
 
             $controller_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.controller_namespace"];
             $action_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.action_namespace"];
@@ -53,6 +53,6 @@ class CreateControllersPipe
                 echo "\e[0;35m$file_name existed!\e[0m\n";
             }
         }
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

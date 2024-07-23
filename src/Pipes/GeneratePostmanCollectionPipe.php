@@ -4,9 +4,10 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Alisuliman\CodeGenerator\Helpers\Str;
 
-class GeneratePostmanCollectionPipe
+class GeneratePostmanCollectionPipe implements CodeGenPipContract
 {
     private function get_json_raw($columns)
     {
@@ -19,7 +20,7 @@ class GeneratePostmanCollectionPipe
         return $json_raw . '\r\n        }';
     }
 
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/postman/collection.json')))
             $collectionArray = json_decode(file_get_contents(base_path('stubs/code_gen/postman/collection.json')), true);
@@ -39,7 +40,7 @@ class GeneratePostmanCollectionPipe
         
         $stringCollectionItems = '';
 
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
 
             $stringCollectionItem = (new Str($collectionItemStub))
                 ->replace('{{ table_name }}', $table['table_name'])
@@ -63,6 +64,6 @@ class GeneratePostmanCollectionPipe
 
         echo "\e[0;32m postman_collection.json Generated.\e[0m\n";
 
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

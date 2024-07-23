@@ -4,11 +4,12 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Alisuliman\CodeGenerator\Helpers\Str;
 
-class CreateModelsPipe
+class CreateModelsPipe implements CodeGenPipContract
 {
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         $base_model_class_name = class_basename(config('code_gen.base_model'));
         $base_model_class = config('code_gen.base_model');
@@ -17,7 +18,7 @@ class CreateModelsPipe
         else
             $stub = file_get_contents(__DIR__ . '/../../stubs/model/model.stub');
 
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
 
             $model_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.model_namespace"];
 
@@ -46,6 +47,6 @@ class CreateModelsPipe
                 echo "\e[0;35m$file_name existed!\e[0m\n";
             }
         }
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

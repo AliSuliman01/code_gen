@@ -4,9 +4,10 @@
 namespace Alisuliman\CodeGenerator\Pipes;
 
 
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Illuminate\Support\Str;
 
-class CreateViewModelsPipe
+class CreateViewModelsPipe implements CodeGenPipContract
 {
     private function handleSingleStub($stub, $json_file, $prefix, $suffix)
     {
@@ -42,7 +43,7 @@ class CreateViewModelsPipe
 
     }
 
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/vm/vm.get_all.stub')))
             $getAllViewModelStub = file_get_contents(base_path('stubs/code_gen/vm/vm.get_all.stub'));
@@ -54,9 +55,9 @@ class CreateViewModelsPipe
         else
             $getViewModelStub = file_get_contents(__DIR__ . '/../../stubs/vm/vm.get.stub');
 
-        $this->handleSingleStub($getAllViewModelStub, $json_file, 'GetAll', 's');
-        $this->handleSingleStub($getViewModelStub, $json_file, 'Get', '');
+        $this->handleSingleStub($getAllViewModelStub, $pipeData->json_file, 'GetAll', 's');
+        $this->handleSingleStub($getViewModelStub, $pipeData->json_file, 'Get', '');
 
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ service_namespace }};
+
+use {{ model_namespace }}\{{ entity_name }};
+
+class CryptoContractService
+{
+    public function get()
+    {
+        return {{ entity_name }}::query()->get();
+    }
+
+    public function laod({{ entity_name }} ${{ instance_name }})
+    {
+        ${{ instance_name }}->load([]);
+        return ${{ instance_name }};
+    }
+
+    public function store($data)
+    {
+        return {{ entity_name }}::query()->create($data);
+    }
+
+    public function update({{ entity_name }} ${{ instance_name }}, $data)
+    {
+        ${{ instance_name }}->update($data);
+        return ${{ instance_name }};
+    }
+
+    public function destroy({{ entity_name }} ${{ instance_name }})
+    {
+        ${{ instance_name }}->delete();
+        return ${{ instance_name }};
+    }
+}

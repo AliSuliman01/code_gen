@@ -3,10 +3,9 @@
 
 namespace Alisuliman\CodeGenerator\Pipes;
 
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 
-use Illuminate\Support\Str;
-
-class CreateRequestsPipe
+class CreateRequestsPipe implements CodeGenPipContract
 {
     private $base_form_request_class;
     private $base_form_request_class_name;
@@ -61,7 +60,7 @@ class CreateRequestsPipe
 
     }
 
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/requests/request.store.stub')))
             $storeRequestStub = file_get_contents(base_path('stubs/code_gen/requests/request.store.stub'));
@@ -73,9 +72,9 @@ class CreateRequestsPipe
         else
             $updateRequestStub = file_get_contents(__DIR__ . '/../../stubs/requests/request.update.stub');
 
-        $this->handleSingleStub($storeRequestStub, $json_file, 'Store');
-        $this->handleSingleStub($updateRequestStub, $json_file, 'Update');
+        $this->handleSingleStub($storeRequestStub, $pipeData->json_file, 'Store');
+        $this->handleSingleStub($updateRequestStub, $pipeData->json_file, 'Update');
 
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

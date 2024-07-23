@@ -1,19 +1,18 @@
 <?php
 
-
 namespace Alisuliman\CodeGenerator\Pipes;
 
-
-class CreateRoutesPipe
+use Alisuliman\CodeGenerator\Helpers\PipeData;
+class CreateRoutesPipe implements CodeGenPipContract
 {
-    public function handle($json_file, \Closure $next)
+    public function handle(PipeData $pipeData, \Closure $next)
     {
         if (file_exists(base_path('stubs/code_gen/routes.stub')))
             $stub = file_get_contents(base_path('stubs/code_gen/routes.stub'));
         else
             $stub = file_get_contents(__DIR__ . '/../../stubs/routes.stub');
 
-        foreach ($json_file['tables'] as $table) {
+        foreach ($pipeData->json_file['tables'] as $table) {
 
             $controller_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.controller_namespace"];
             $route_namespace = GenerateNamespacesArrayPipe::$namespaces["{$table['table_name']}.route_namespace"];
@@ -41,6 +40,6 @@ class CreateRoutesPipe
                 echo "\e[0;35m$file_name existed!\e[0m\n";
             }
         }
-        return $next($json_file);
+        return $next($pipeData);
     }
 }

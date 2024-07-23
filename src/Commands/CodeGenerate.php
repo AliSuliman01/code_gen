@@ -3,20 +3,8 @@
 namespace Alisuliman\CodeGenerator\Commands;
 
 
-use Alisuliman\CodeGenerator\Pipes\CreateActionsPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateControllersPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateDTOPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateMigrationsPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateModelsPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateRequestsPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateRoutesPipe;
-use Alisuliman\CodeGenerator\Pipes\CreateViewModelsPipe;
-use Alisuliman\CodeGenerator\Pipes\GenerateNamespacesArrayPipe;
-use Alisuliman\CodeGenerator\Pipes\GeneratePostmanCollectionPipe;
-use Alisuliman\CodeGenerator\Pipes\RegisterMigrationsPipe;
-use Alisuliman\CodeGenerator\Pipes\RegisterRoutePipe;
+use Alisuliman\CodeGenerator\Helpers\PipeData;
 use Illuminate\Console\Command;
-use Illuminate\Routing\Pipeline;
 
 class CodeGenerate extends Command
 {
@@ -25,7 +13,7 @@ class CodeGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'code_gen {file?}';
+    protected $signature = 'code_gen {s?}';
 
     /**
      * The console command description.
@@ -53,26 +41,20 @@ class CodeGenerate extends Command
     {
         echo "\e[0;32m------Code generating started------\e[0m\n";
 
-        $json_file = json_decode(file_get_contents(base_path($this->argument('file') ?? 'code_gen.json')), true);
+        $json_file = json_decode(file_get_contents(base_path('code_gen.json')), true);
+        $structureName = $this->argument('s') ?? config('code_gen.default');
+        $structure = config('code_gen.structures')[$structureName];
 
-        app(Pipeline::class)
-            ->send($json_file)
-            ->through([
-                GenerateNamespacesArrayPipe::class,
-                CreateMigrationsPipe::class,
-                CreateModelsPipe::class,
-                CreateDTOPipe::class,
-                CreateActionsPipe::class,
-                CreateViewModelsPipe::class,
-                CreateRequestsPipe::class,
-                CreateControllersPipe::class,
-                CreateRoutesPipe::class,
-                RegisterRoutePipe::class,
-                RegisterMigrationsPipe::class,
-                GeneratePostmanCollectionPipe::class,
-            ])
-            ->thenReturn();
+        $pipeData = new PipeData();
+        $pipeData->json_file = $json_file;
+        $pipeData->namespaces = $structure['namespaces'];
+        $pipeData->structureName = $structureName;
+
+        $handler = $structure['handler']();
+        $handler->handle($pipeData);
 
         echo "\e[0;32m------Code generating finished------\e[0m";
+
+        return 0;
     }
 }
